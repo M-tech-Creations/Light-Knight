@@ -13,6 +13,17 @@ digoinal directions
 that one space and stop
 6:If the players color come in contact with there own color, that players color will keep going
 7:The colored spot, the player is on can not be changed
+
+V.7: 8/28/13
+[Bug Fix] stoped game from crashing if you typed a letter for an X,Y input
+
+V.6: 8/28/13
+[Bug fix] Which allowed the player to move anywhere on the board without checking
+if it was a real move the player could make
+
+V.5: 8/28/13
+First Release of the game
+
 */
 
 #include<iostream>
@@ -95,9 +106,19 @@ int main()
 		{
 			cout<<"Not a vaild move, try again"<<endl;
 			cout<<"Player 1 X: ";
-			cin>>x1;
+			//cin>>x1;
+			while ( !( cin>> x1 ) || cin.get() != '\n' ) {
+			  cerr<<"\nInvalid input\nPlayer 1 X: ";
+			  cin.clear();
+			  cin.ignore ( 1,  EOF);
+			}
 			cout<<"Player 1 Y: ";
-			cin>>y1;
+			//cin>>y1;
+			while ( !( cin>> y1 ) || cin.get() != '\n' ) {
+			  cerr<<"\nInvalid input\nPlayer 1 Y: ";
+			  cin.clear();
+			  cin.ignore ( 1,  EOF);
+			}
 		}
 		clear();
 		cout<<"There are "<<5-i<<" moves left"<<endl<<endl;
@@ -110,9 +131,19 @@ int main()
 		{
 			cout<<"Not a vaild move, try again"<<endl;
 			cout<<"Player 2 X: ";
-			cin>>x2;
+			//cin>>x2;
+			while ( !( cin>> x2 ) || cin.get() != '\n' ) {
+			  cerr<<"\nInvalid input\nPlayer 2 X: ";
+			  cin.clear();
+			  cin.ignore ( 1,  EOF);
+			}
 			cout<<"Player 2 Y: ";
-			cin>>y2;
+			//cin>>y2;
+			while ( !( cin>> y2 ) || cin.get() != '\n' ) {
+			  cerr<<"\nInvalid input\nPlayer 2 Y: ";
+			  cin.clear();
+			  cin.ignore ( 1,  EOF);
+			}
 		}
 		clear();
 		i++;
