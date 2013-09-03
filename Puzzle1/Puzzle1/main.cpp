@@ -14,8 +14,12 @@ that one space and stop
 6:If the players color come in contact with there own color, that players color will keep going
 7:The colored spot, the player is on can not be changed
 
-V.7: 8/28/13
+V.7: 8/28/13 - 9/1/13
 [Bug Fix] stoped game from crashing if you typed a letter for an X,Y input
+[Added] Changed game feild to "*" from "0"
+[Bug Fix] Issue where players color would place its self in locations where it wassn't ment to go
+[Bug Fix] Issue where player was given all real possible movement options
+[Code Change] fixed some inconsistances in varible useage
 
 V.6: 8/28/13
 [Bug fix] Which allowed the player to move anywhere on the board without checking
@@ -104,6 +108,7 @@ int main()
 		cin>>y1;
 		while(!move1(x1,y1))
 		{
+			x1=y1=x2=y2=0;//clear the data
 			cout<<"Not a vaild move, try again"<<endl;
 			cout<<"Player 1 X: ";
 			//cin>>x1;
@@ -129,6 +134,7 @@ int main()
 		cin>>y2;
 		while(!move2(x2,y2))
 		{
+			x1=y1=x2=y2=0;//clear the data
 			cout<<"Not a vaild move, try again"<<endl;
 			cout<<"Player 2 X: ";
 			//cin>>x2;
@@ -300,7 +306,7 @@ void print_g()
 			else if(g_grid[x][y]==0)//un claimed spaces
 			{
 				SetConsoleTextAttribute(hConsole, 15);//set things back to normal
-				cout<<"0";
+				cout<<"*";
 			}
 			else if(g_grid[x][y]==4)//player 1's location
 			{
@@ -328,28 +334,33 @@ void span1(int px, int py)
 	while(x>0)
 	{
 		x--;
-		if(g_grid[x][y]==5)//do not override player space, must be first
+		if(x >=0 && y >=0 && x<grid_x && y <grid_y)
 		{
-			break;
-		}
-		else if(g_grid[x][y]==2)//check to see if crossed path with other color
-		{
-			g_grid[x][y]=1;
-			break;
-		}
-		else if(g_grid[x][y]==3)//check to make sure not out of bonds
-		{
-			break;
-		}
-		else if(g_grid[x][y]==player1)//check for self
-		{
-			//g_grid[x][y]=3;
-			break;
+			if(g_grid[x][y]==player2)//do not override player space, must be first
+			{
+				break;
+			}
+			else if(g_grid[x][y]==2)//check to see if crossed path with other color
+			{
+				g_grid[x][y]=1;
+				break;
+			}
+			else if(g_grid[x][y]==3)//check to make sure not out of bonds
+			{
+				break;
+			}
+			else if(g_grid[x][y]==player1)//check for self
+			{
+				//g_grid[x][y]=3;
+				break;
+			}
+			else
+			{
+				g_grid[x][y]=1;
+			}
 		}
 		else
-		{
-			g_grid[x][y]=1;
-		}
+			break;
 		
 		
 	}
@@ -359,28 +370,33 @@ void span1(int px, int py)
 	while(x<grid_x)
 	{
 		x++;
-		if(g_grid[x][y]==5)//do not override player space, must be first
+		if(x >=0 && y >=0 && x<grid_x && y <grid_y)
 		{
-			break;
-		}
-		else if(g_grid[x][y]==2)//check to see if crossed path with other color
-		{
-			g_grid[x][y]=1;
-			break;
-		}
-		else if(g_grid[x][y]==3)//check to make sure not out of bonds
-		{
-			break;
-		}
-		else if(g_grid[x][y]==player1)//check for self
-		{
-			//g_grid[x][y]=3;
-			break;
+			if(g_grid[x][y]==player2)//do not override player space, must be first
+			{
+				break;
+			}
+			else if(g_grid[x][y]==2)//check to see if crossed path with other color
+			{
+				g_grid[x][y]=1;
+				break;
+			}
+			else if(g_grid[x][y]==3)//check to make sure not out of bonds
+			{
+				break;
+			}
+			else if(g_grid[x][y]==player1)//check for self
+			{
+				//g_grid[x][y]=3;
+				break;
+			}
+			else
+			{
+				g_grid[x][y]=1;
+			}
 		}
 		else
-		{
-			g_grid[x][y]=1;
-		}
+			break;
 		
 	}
 	x = px;//reset x
@@ -389,28 +405,33 @@ void span1(int px, int py)
 	while(y>0)
 	{
 		y--;
-		if(g_grid[x][y]==5)//do not override player space, must be first
+		if(x >=0 && y >=0 && x<grid_x && y <grid_y)
 		{
-			break;
-		}
-		else if(g_grid[x][y]==2)//check to see if crossed path with other color
-		{
-			g_grid[x][y]=1;
-			break;
-		}
-		else if(g_grid[x][y]==3)//check to make sure not out of bonds
-		{
-			break;
-		}
-		else if(g_grid[x][y]==player1)//check for self
-		{
-			//g_grid[x][y]=3;
-			break;
+			if(g_grid[x][y]==player2)//do not override player space, must be first
+			{
+				break;
+			}
+			else if(g_grid[x][y]==2)//check to see if crossed path with other color
+			{
+				g_grid[x][y]=1;
+				break;
+			}
+			else if(g_grid[x][y]==3)//check to make sure not out of bonds
+			{
+				break;
+			}
+			else if(g_grid[x][y]==player1)//check for self
+			{
+				//g_grid[x][y]=3;
+				break;
+			}
+			else
+			{
+				g_grid[x][y]=1;
+			}
 		}
 		else
-		{
-			g_grid[x][y]=1;
-		}
+			break;
 	}
 	x = px;//reset x
 	y = py;//reset y
@@ -418,28 +439,33 @@ void span1(int px, int py)
 	while(y<grid_y-1)
 	{
 		y++;
-		if(g_grid[x][y]==5)//do not override player space, must be first
+		if(x >=0 && y >=0 && x<grid_x && y <grid_y)
 		{
-			break;
-		}
-		else if(g_grid[x][y]==2)//check to see if crossed path with other color
-		{
-			g_grid[x][y]=1;
-			break;
-		}
-		else if(g_grid[x][y]==3)//check to make sure not out of bonds
-		{
-			break;
-		}
-		else if(g_grid[x][y]==player1)//check for self
-		{
-			//g_grid[x][y]=3;
-			break;
+			if(g_grid[x][y]==player2)//do not override player space, must be first
+			{
+				break;
+			}
+			else if(g_grid[x][y]==2)//check to see if crossed path with other color
+			{
+				g_grid[x][y]=1;
+				break;
+			}
+			else if(g_grid[x][y]==3)//check to make sure not out of bonds
+			{
+				break;
+			}
+			else if(g_grid[x][y]==player1)//check for self
+			{
+				//g_grid[x][y]=3;
+				break;
+			}
+			else
+			{
+				g_grid[x][y]=1;
+			}
 		}
 		else
-		{
-			g_grid[x][y]=1;
-		}
+			break;
 	}
 	x = px;//reset x
 	y = py;//reset y
@@ -448,28 +474,33 @@ void span1(int px, int py)
 	{
 		y--;
 		x--;
-		if(g_grid[x][y]==5)//do not override player space, must be first
+		if(x >=0 && y >=0 && x<grid_x && y <grid_y)
 		{
-			break;
-		}
-		else if(g_grid[x][y]==2)//check to see if crossed path with other color
-		{
-			g_grid[x][y]=1;
-			break;
-		}
-		else if(g_grid[x][y]==3)//check to make sure not out of bonds
-		{
-			break;
-		}
-		else if(g_grid[x][y]==player1)//check for self
-		{
-			//g_grid[x][y]=3;
-			break;
+			if(g_grid[x][y]==player2)//do not override player space, must be first
+			{
+				break;
+			}
+			else if(g_grid[x][y]==2)//check to see if crossed path with other color
+			{
+				g_grid[x][y]=1;
+				break;
+			}
+			else if(g_grid[x][y]==3)//check to make sure not out of bonds
+			{
+				break;
+			}
+			else if(g_grid[x][y]==player1)//check for self
+			{
+				//g_grid[x][y]=3;
+				break;
+			}
+			else
+			{
+				g_grid[x][y]=1;
+			}
 		}
 		else
-		{
-			g_grid[x][y]=1;
-		}
+			break;
 	}
 	x = px;//reset x
 	y = py;//reset y
@@ -478,28 +509,33 @@ void span1(int px, int py)
 	{
 		y++;
 		x--;
-		if(g_grid[x][y]==5)//do not override player space, must be first
+		if(x >=0 && y >=0 && x<grid_x && y <grid_y)
 		{
-			break;
-		}
-		else if(g_grid[x][y]==2)//check to see if crossed path with other color
-		{
-			g_grid[x][y]=1;
-			break;
-		}
-		else if(g_grid[x][y]==3)//check to make sure not out of bonds
-		{
-			break;
-		}
-		else if(g_grid[x][y]==player1)//check for self
-		{
-			//g_grid[x][y]=3;
-			break;
+			if(g_grid[x][y]==player2)//do not override player space, must be first
+			{
+				break;
+			}
+			else if(g_grid[x][y]==2)//check to see if crossed path with other color
+			{
+				g_grid[x][y]=1;
+				break;
+			}
+			else if(g_grid[x][y]==3)//check to make sure not out of bonds
+			{
+				break;
+			}
+			else if(g_grid[x][y]==player1)//check for self
+			{
+				//g_grid[x][y]=3;
+				break;
+			}
+			else
+			{
+				g_grid[x][y]=1;
+			}
 		}
 		else
-		{
-			g_grid[x][y]=1;
-		}
+			break;
 	}
 	x = px;//reset x
 	y = py;//reset y
@@ -508,28 +544,33 @@ void span1(int px, int py)
 	{
 		y--;
 		x++;
-		if(g_grid[x][y]==5)//do not override player space, must be first
+		if(x >=0 && y >=0 && x<grid_x && y <grid_y)
 		{
-			break;
-		}
-		else if(g_grid[x][y]==2)//check to see if crossed path with other color
-		{
-			g_grid[x][y]=1;
-			break;
-		}
-		else if(g_grid[x][y]==3)//check to make sure not out of bonds
-		{
-			break;
-		}
-		else if(g_grid[x][y]==player1)//check for self
-		{
-			//g_grid[x][y]=3;
-			break;
+			if(g_grid[x][y]==player2)//do not override player space, must be first
+			{
+				break;
+			}
+			else if(g_grid[x][y]==2)//check to see if crossed path with other color
+			{
+				g_grid[x][y]=1;
+				break;
+			}
+			else if(g_grid[x][y]==3)//check to make sure not out of bonds
+			{
+				break;
+			}
+			else if(g_grid[x][y]==player1)//check for self
+			{
+				//g_grid[x][y]=3;
+				break;
+			}
+			else
+			{
+				g_grid[x][y]=1;
+			}
 		}
 		else
-		{
-			g_grid[x][y]=1;
-		}
+			break;
 	}
 	x = px;//reset x
 	y = py;//reset y
@@ -538,28 +579,33 @@ void span1(int px, int py)
 	{
 		y++;
 		x++;
-		if(g_grid[x][y]==5)//do not override player space, must be first
+		if(x >=0 && y >=0 && x<grid_x && y <grid_y)
 		{
-			break;
-		}
-		else if(g_grid[x][y]==2)//check to see if crossed path with other color
-		{
-			g_grid[x][y]=1;
-			break;
-		}
-		else if(g_grid[x][y]==3)//check to make sure not out of bonds
-		{
-			break;
-		}
-		else if(g_grid[x][y]==player1)//check for self
-		{
-			//g_grid[x][y]=3;
-			break;
+			if(g_grid[x][y]==player2)//do not override player space, must be first
+			{
+				break;
+			}
+			else if(g_grid[x][y]==2)//check to see if crossed path with other color
+			{
+				g_grid[x][y]=1;
+				break;
+			}
+			else if(g_grid[x][y]==3)//check to make sure not out of bonds
+			{
+				break;
+			}
+			else if(g_grid[x][y]==player1)//check for self
+			{
+				//g_grid[x][y]=3;
+				break;
+			}
+			else
+			{
+				g_grid[x][y]=1;
+			}
 		}
 		else
-		{
-			g_grid[x][y]=1;
-		}
+			break;
 	}
 }
 
@@ -574,29 +620,34 @@ void span2(int px, int py)
 	while(x>0)
 	{
 		x--;
-		if(g_grid[x][y]==4)//do not override player space, must be first
+		if(x >=0 && y >=0 && x<grid_x && y <grid_y)
 		{
-			break;
-		}
-		else if(g_grid[x][y]==1)//check to see if crossed path with other color
-		{
-			g_grid[x][y]=2;
-			break;
-		}
-		else if(g_grid[x][y]==3)//check to make sure not out of bonds
-		{
-			//g_grid[x][y]=3;
-			break;
-		}
-		else if(g_grid[x][y]==player2)//check for self
-		{
-			//g_grid[x][y]=3;
-			break;
+			if(g_grid[x][y]==player1)//do not override player space, must be first
+			{
+				break;
+			}
+			else if(g_grid[x][y]==1)//check to see if crossed path with other color
+			{
+				g_grid[x][y]=2;
+				break;
+			}
+			else if(g_grid[x][y]==3)//check to make sure not out of bonds
+			{
+				//g_grid[x][y]=3;
+				break;
+			}
+			else if(g_grid[x][y]==player2)//check for self
+			{
+				//g_grid[x][y]=3;
+				break;
+			}
+			else
+			{
+				g_grid[x][y]=2;
+			}
 		}
 		else
-		{
-			g_grid[x][y]=2;
-		}
+			break;
 		
 	}
 	x = px;//reset x
@@ -605,28 +656,34 @@ void span2(int px, int py)
 	while(x<grid_x)
 	{
 		x++;
-		if(g_grid[x][y]==4)//do not override player space, must be first
+		if(x >=0 && y >=0 && x<grid_x && y <grid_y)
 		{
-			break;
-		}
-		else if(g_grid[x][y]==1)//check to see if crossed path with other color
-		{
-			g_grid[x][y]=2;
-			break;
-		}
-		else if(g_grid[x][y]==3)//check to make sure not out of bonds
-		{
-			break;
-		}
-		else if(g_grid[x][y]==player2)//check for self
-		{
-			//g_grid[x][y]=3;
-			break;
+			if(g_grid[x][y]==player1)//do not override player space, must be first
+			{
+				break;
+			}
+			else if(g_grid[x][y]==1)//check to see if crossed path with other color
+			{
+				g_grid[x][y]=2;
+				break;
+			}
+			else if(g_grid[x][y]==3)//check to make sure not out of bonds
+			{
+				//g_grid[x][y]=3;
+				break;
+			}
+			else if(g_grid[x][y]==player2)//check for self
+			{
+				//g_grid[x][y]=3;
+				break;
+			}
+			else
+			{
+				g_grid[x][y]=2;
+			}
 		}
 		else
-		{
-			g_grid[x][y]=2;
-		}		
+			break;	
 	}
 	x = px;//reset x
 	y = py;//reset y
@@ -634,28 +691,34 @@ void span2(int px, int py)
 	while(y>0)
 	{
 		y--;
-		if(g_grid[x][y]==4)//do not override player space, must be first
+		if(x >=0 && y >=0 && x<grid_x && y <grid_y)
 		{
-			break;
-		}
-		else if(g_grid[x][y]==1)//check to see if crossed path with other color
-		{
-			g_grid[x][y]=2;
-			break;
-		}
-		else if(g_grid[x][y]==3)//check to make sure not out of bonds
-		{
-			break;
-		}
-		else if(g_grid[x][y]==player2)//check for self
-		{
-			//g_grid[x][y]=3;
-			break;
+			if(g_grid[x][y]==player1)//do not override player space, must be first
+			{
+				break;
+			}
+			else if(g_grid[x][y]==1)//check to see if crossed path with other color
+			{
+				g_grid[x][y]=2;
+				break;
+			}
+			else if(g_grid[x][y]==3)//check to make sure not out of bonds
+			{
+				//g_grid[x][y]=3;
+				break;
+			}
+			else if(g_grid[x][y]==player2)//check for self
+			{
+				//g_grid[x][y]=3;
+				break;
+			}
+			else
+			{
+				g_grid[x][y]=2;
+			}
 		}
 		else
-		{
-			g_grid[x][y]=2;
-		}
+			break;
 	}
 	x = px;//reset x
 	y = py;//reset y
@@ -663,28 +726,34 @@ void span2(int px, int py)
 	while(y<grid_y-1)
 	{
 		y++;
-		if(g_grid[x][y]==4)//do not override player space, must be first
+		if(x >=0 && y >=0 && x<grid_x && y <grid_y)
 		{
-			break;
-		}
-		else if(g_grid[x][y]==1)//check to see if crossed path with other color
-		{
-			g_grid[x][y]=2;
-			break;
-		}
-		else if(g_grid[x][y]==3)//check to make sure not out of bonds
-		{
-			break;
-		}
-		else if(g_grid[x][y]==player2)//check for self
-		{
-			//g_grid[x][y]=3;
-			break;
+			if(g_grid[x][y]==player1)//do not override player space, must be first
+			{
+				break;
+			}
+			else if(g_grid[x][y]==1)//check to see if crossed path with other color
+			{
+				g_grid[x][y]=2;
+				break;
+			}
+			else if(g_grid[x][y]==3)//check to make sure not out of bonds
+			{
+				//g_grid[x][y]=3;
+				break;
+			}
+			else if(g_grid[x][y]==player2)//check for self
+			{
+				//g_grid[x][y]=3;
+				break;
+			}
+			else
+			{
+				g_grid[x][y]=2;
+			}
 		}
 		else
-		{
-			g_grid[x][y]=2;
-		}
+			break;
 	}
 	x = px;//reset x
 	y = py;//reset y
@@ -693,28 +762,34 @@ void span2(int px, int py)
 	{
 		y--;
 		x--;
-		if(g_grid[x][y]==4)//do not override player space, must be first
+		if(x >=0 && y >=0 && x<grid_x && y <grid_y)
 		{
-			break;
-		}
-		else if(g_grid[x][y]==1)//check to see if crossed path with other color
-		{
-			g_grid[x][y]=2;
-			break;
-		}
-		else if(g_grid[x][y]==3)//check to make sure not out of bonds
-		{
-			break;
-		}
-		else if(g_grid[x][y]==player2)//check for self
-		{
-			//g_grid[x][y]=3;
-			break;
+			if(g_grid[x][y]==player1)//do not override player space, must be first
+			{
+				break;
+			}
+			else if(g_grid[x][y]==1)//check to see if crossed path with other color
+			{
+				g_grid[x][y]=2;
+				break;
+			}
+			else if(g_grid[x][y]==3)//check to make sure not out of bonds
+			{
+				//g_grid[x][y]=3;
+				break;
+			}
+			else if(g_grid[x][y]==player2)//check for self
+			{
+				//g_grid[x][y]=3;
+				break;
+			}
+			else
+			{
+				g_grid[x][y]=2;
+			}
 		}
 		else
-		{
-			g_grid[x][y]=2;
-		}
+			break;
 	}
 	x = px;//reset x
 	y = py;//reset y
@@ -723,28 +798,34 @@ void span2(int px, int py)
 	{
 		y++;
 		x--;
-		if(g_grid[x][y]==4)//do not override player space, must be first
+		if(x >=0 && y >=0 && x<grid_x && y <grid_y)
 		{
-			break;
-		}
-		else if(g_grid[x][y]==1)//check to see if crossed path with other color
-		{
-			g_grid[x][y]=2;
-			break;
-		}
-		else if(g_grid[x][y]==3)//check to make sure not out of bonds
-		{
-			break;
-		}
-		else if(g_grid[x][y]==player2)//check for self
-		{
-			//g_grid[x][y]=3;
-			break;
+			if(g_grid[x][y]==player1)//do not override player space, must be first
+			{
+				break;
+			}
+			else if(g_grid[x][y]==1)//check to see if crossed path with other color
+			{
+				g_grid[x][y]=2;
+				break;
+			}
+			else if(g_grid[x][y]==3)//check to make sure not out of bonds
+			{
+				//g_grid[x][y]=3;
+				break;
+			}
+			else if(g_grid[x][y]==player2)//check for self
+			{
+				//g_grid[x][y]=3;
+				break;
+			}
+			else
+			{
+				g_grid[x][y]=2;
+			}
 		}
 		else
-		{
-			g_grid[x][y]=2;
-		}
+			break;
 	}
 	x = px;//reset x
 	y = py;//reset y
@@ -753,28 +834,34 @@ void span2(int px, int py)
 	{
 		y--;
 		x++;
-		if(g_grid[x][y]==4)//do not override player space, must be first
+		if(x >=0 && y >=0 && x<grid_x && y <grid_y)
 		{
-			break;
-		}
-		else if(g_grid[x][y]==1)//check to see if crossed path with other color
-		{
-			g_grid[x][y]=2;
-			break;
-		}
-		else if(g_grid[x][y]==3)//check to make sure not out of bonds
-		{
-			break;
-		}
-		else if(g_grid[x][y]==player2)//check for self
-		{
-			//g_grid[x][y]=3;
-			break;
+			if(g_grid[x][y]==player1)//do not override player space, must be first
+			{
+				break;
+			}
+			else if(g_grid[x][y]==1)//check to see if crossed path with other color
+			{
+				g_grid[x][y]=2;
+				break;
+			}
+			else if(g_grid[x][y]==3)//check to make sure not out of bonds
+			{
+				//g_grid[x][y]=3;
+				break;
+			}
+			else if(g_grid[x][y]==player2)//check for self
+			{
+				//g_grid[x][y]=3;
+				break;
+			}
+			else
+			{
+				g_grid[x][y]=2;
+			}
 		}
 		else
-		{
-			g_grid[x][y]=2;
-		}
+			break;
 	}
 	x = px;//reset x
 	y = py;//reset y
@@ -783,28 +870,34 @@ void span2(int px, int py)
 	{
 		y++;
 		x++;
-		if(g_grid[x][y]==4)//do not override player space, must be first
+		if(x >=0 && y >=0 && x<grid_x && y <grid_y)
 		{
-			break;
-		}
-		else if(g_grid[x][y]==1)//check to see if crossed path with other color
-		{
-			g_grid[x][y]=2;
-			break;
-		}
-		else if(g_grid[x][y]==3)//check to make sure not out of bonds
-		{
-			break;
-		}
-		else if(g_grid[x][y]==player2)//check for self
-		{
-			//g_grid[x][y]=3;
-			break;
+			if(g_grid[x][y]==player1)//do not override player space, must be first
+			{
+				break;
+			}
+			else if(g_grid[x][y]==1)//check to see if crossed path with other color
+			{
+				g_grid[x][y]=2;
+				break;
+			}
+			else if(g_grid[x][y]==3)//check to make sure not out of bonds
+			{
+				//g_grid[x][y]=3;
+				break;
+			}
+			else if(g_grid[x][y]==player2)//check for self
+			{
+				//g_grid[x][y]=3;
+				break;
+			}
+			else
+			{
+				g_grid[x][y]=2;
+			}
 		}
 		else
-		{
-			g_grid[x][y]=2;
-		}
+			break;
 	}
 }
 void s_print()
@@ -883,7 +976,7 @@ void listmoves1()
 				|| g_grid[player1_x+kmove[kx][ky]][player1_y+kmove[kx][ky+1]]==2 )
 			{
 				if(kmove[kx][ky]+player1_x >=0 && kmove[kx][ky+1]+player1_y >=0
-					&&kmove[kx][ky]+player1_x<=grid_x && kmove[kx][ky+1]+player1_y <grid_y)
+					&&kmove[kx][ky]+player1_x<grid_x && kmove[kx][ky+1]+player1_y <grid_y)
 				{
 					cout<<i<<": X "<<kmove[kx][ky]+player1_x<<", Y "<<kmove[kx][ky+1]+player1_y<<endl;//displays vaild moves to make
 					i++;
@@ -942,7 +1035,7 @@ bool vaild1(int x,int y)
 				|| g_grid[player1_x+kmove[kx][ky]][player1_y+kmove[kx][ky+1]]==2 )
 			{
 				if(kmove[kx][ky]+player1_x >=0 && kmove[kx][ky+1]+player1_y >=0
-					&&kmove[kx][ky]+player1_x<=grid_x && kmove[kx][ky+1]+player1_y <grid_y
+					&&kmove[kx][ky]+player1_x<grid_x && kmove[kx][ky+1]+player1_y <grid_y
 					&& kmove[kx][ky]+player1_x ==x && kmove[kx][ky+1]+player1_y == y)
 				{
 					
@@ -975,8 +1068,9 @@ bool move1(int x, int y)
 	{
 		player1_x = x;
 		player1_y = y;
-		g_grid[x][y]=player1;
 		g_grid[old_x][old_y]=1;
+		g_grid[x][y]=player1;
+		
 		//cout<<old_x;
 		span1(x,y);
 		
@@ -1007,10 +1101,12 @@ void listmoves2()
 	{
 		for(int ky=0;ky<2;ky=ky+2)
 		{
+			
 			if(g_grid[player2_x+kmove[kx][ky]][player2_y+kmove[kx][ky+1]]==3)//check for bondrys
 			{
 				break;//not a vaid move
 			}
+
 			else if(g_grid[player2_x+kmove[kx][ky]][player2_y+kmove[kx][ky+1]]==player1)//check for player 1
 			{
 				break;//not a vaid move
@@ -1020,13 +1116,15 @@ void listmoves2()
 				|| g_grid[player2_x+kmove[kx][ky]][player2_y+kmove[kx][ky+1]]==2 )
 			{
 				if(player2_x + kmove[kx][ky] >=0 && player2_y + kmove[kx][ky+1] >=0
-					&&kmove[kx][ky]+player2_x<=grid_x && kmove[kx][ky+1]+player2_y <grid_y)
+					&&kmove[kx][ky]+player2_x<grid_x && kmove[kx][ky+1]+player2_y <grid_y)
 				{
 					cout<<i<<": X "<<kmove[kx][ky]+player2_x<<", Y "<<kmove[kx][ky+1]+player2_y<<endl;//displays vaild moves to make
 					i++;
 				}
 				else
+				{
 					break;
+				}
 			}
 			
 			else
@@ -1079,7 +1177,7 @@ bool vaild2(int x,int y)
 				|| g_grid[player2_x+kmove[kx][ky]][player2_y+kmove[kx][ky+1]]==2 )
 			{
 				if(kmove[kx][ky]+player2_x >=0 && kmove[kx][ky+1]+player2_y >=0
-					&&kmove[kx][ky]+player2_x<=grid_x && kmove[kx][ky+1]+player2_y <grid_y
+					&&kmove[kx][ky]+player2_x<grid_x && kmove[kx][ky+1]+player2_y <grid_y
 					&& kmove[kx][ky]+player2_x ==x && kmove[kx][ky+1]+player2_y == y)
 				{
 					return true;
@@ -1098,7 +1196,7 @@ bool vaild2(int x,int y)
 		//cout<<endl;
 	}
 	
-	return false;// if not match is found in loop then this is not a vaild move
+	return false;// if no match is found in loop then this is not a vaild move
 
 }
 
@@ -1111,8 +1209,9 @@ bool move2(int x, int y)
 	{
 		player2_x = x;
 		player2_y = y;
-		g_grid[x][y]=player2;//set the player in the new location
 		g_grid[old_x][old_y]=2;//set the location the player was in to the players color
+		g_grid[x][y]=player2;//set the player in the new location
+		
 		//cout<<old_x;
 		span2(x,y);
 		
